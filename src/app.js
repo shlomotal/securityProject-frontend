@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./Login";
-import SignUp from "./CreateUser";
+import Login from './Pages/Login/login';
+import SignUp from './Pages/SignUp/CreateUser';
 //import UsersTable from "./UsersTable";
 //import UsersTable from "./ChangePassword";
 //import "./CSS/App.css";
@@ -79,8 +79,8 @@ function App() {
           <>
             <Navbar />
             <Routes>
-              <Route exact path="/Login" component={Login} />
-              <Route exact path="/SignUp" component={SignUp} />
+              <Route exact path="/Pages/Login" component={Login} />
+              <Route exact path="/Pages/SignUp" component={SignUp} />
             </Routes>
           </>
         {/* )} */}

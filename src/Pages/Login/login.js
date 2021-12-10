@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../../Modal";
 import { Form, Button } from "react-bootstrap";
-import "./css/login.css";
+import "./login-form.css";
 import { LockClosedOutline, PersonOutline } from "react-ionicons";
+
+const IconLabel = ({ iconElement, label }) => (
+  <Form.Label className="red">
+    {iconElement} {label}
+  </Form.Label>
+);
 
 async function loginUser(credentials) {
   return fetch("http://localhost:4040/users/login", {
@@ -128,61 +134,46 @@ export default function Login() {
   };
 
   return (
-    <Form className="loginScreen" onSubmit={handleSubmit}>
-      <div className="loginScreen">
-        <Modal text={text} open={isOpen} onclose={() => setIsOpen(false)} />
-        <div className="Login">
-          <h1>Login</h1>
-        </div>
+    <Form className="login-form-main" onSubmit={handleSubmit}>
+      <Modal text={text} open={isOpen} onclose={() => setIsOpen(false)} />
+      <h1 className="login-title">Login</h1>
 
-        <Form.Group className="UserName" controlId="formEmail">
-          <Form.Label className="Username">
-            <PersonOutline color={"#00000"} className="userPerson" />
-                Username
-          </Form.Label>
+      <Form.Group className="login-form-group" controlId="formEmail">
+        <IconLabel
+          iconElement={<PersonOutline color="#00000" />}
+          label="Username"
+        />
 
-          <Form.Control
-            className="userInput"
-            type="text"
-            placeholder="Enter Username"
-            value={username}
-            required
-            onChange={handleChangeUsername}
-          />
+        <Form.Control
+          className="input"
+          type="text"
+          placeholder="Enter Username"
+          value={username}
+          required
+          onChange={handleChangeUsername}
+        />
 
-          {errorUsername && <Form.Text>{errorUsername}</Form.Text>}
-        </Form.Group>
+        {errorUsername && <Form.Text>{errorUsername}</Form.Text>}
+      </Form.Group>
 
-        <Form.Group className="md-3  pass" controlId="formPassword">
-          <Form.Label className="pass">
-            <LockClosedOutline
-              color={"#00000"}
-              className="lock-closed-outline"
-            />
-            Password
-          </Form.Label>
-          <Form.Control
-            className="passInput"
-            type="password"
-            placeholder="··········"
-            value={password}
-            required
-            onChange={handleChangePassword}
-          />
+      <Form.Group className="login-form-group" controlId="formPassword">
+        <IconLabel
+          iconElement={<LockClosedOutline color="#00000" />}
+          label="Password"
+        />
+        <Form.Control
+          type="password"
+          placeholder="··········"
+          value={password}
+          required
+          onChange={handleChangePassword}
+        />
 
-          {errorPassword && <Form.Text>{errorPassword}</Form.Text>}
-        </Form.Group>
-        <Button
-          className="submit"
-          size="sm"
-          variant="light"
-          block
-          type="submit"
-        >
-          {" "}
-          Submit{" "}
-        </Button>
-      </div>
+        {errorPassword && <Form.Text>{errorPassword}</Form.Text>}
+      </Form.Group>
+      <Button className="submit" size="sm" variant="light" block type="submit">
+        Submit
+      </Button>
     </Form>
   );
 }
