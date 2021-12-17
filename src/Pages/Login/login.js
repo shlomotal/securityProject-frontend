@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../../Modal";
 import { Form, Button } from "react-bootstrap";
+import "./login-form.css";
+import { LockClosedOutline, PersonOutline } from "react-ionicons";
 
+const IconLabel = ({ iconElement, label }) => (
+  <Form.Label className="red">
+    {iconElement} {label}
+  </Form.Label>
+);
 
 async function loginUser(credentials) {
   return fetch("http://localhost:4040/users/login", {
@@ -18,7 +25,7 @@ async function loginUser(credentials) {
   });
 }
 
-export default function Login({}) {
+export default function Login() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
@@ -28,7 +35,6 @@ export default function Login({}) {
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState();
 
-  
   const handleChangePassword = async (event) => {
     event.preventDefault();
     if (event.target.value.length < 10)
@@ -39,19 +45,19 @@ export default function Login({}) {
     setPassword(event.target.value);
   };
 
-    const handleChangeUsername = async (event) => {
-      event.preventDefault();
-      if (event.target.value.length < 3)
-        setErrorUsername("Username must be at least 3 characters long!");
-      else {
-        setErrorUsername("");
-      }
-      setUsername(event.target.value);
-    };
+  const handleChangeUsername = async (event) => {
+    event.preventDefault();
+    if (event.target.value.length < 3)
+      setErrorUsername("Username must be at least 3 characters long!");
+    else {
+      setErrorUsername("");
+    }
+    setUsername(event.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('username: ' + username, + ' password: ' + password)
+    console.log("username: " + username, +" password: " + password);
     if (errorPassword || errorUsername) {
       setText("You can't submit!");
       setUsername("");
@@ -128,48 +134,46 @@ export default function Login({}) {
   };
 
   return (
-    <div>
-      <video className="videoTag" id="background-video" autoPlay loop muted>
-      </video>
-      <div className="create-user-form  loginDiv">
-        <Modal text={text} open={isOpen} onclose={() => setIsOpen(false)} />
-        <h1
-          className="textAlignCenter"
-          //style="text-align:center;"
-        >
-          {" "}
-          Login{" "}
-        </h1>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="md-3" controlId="formEmail">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Username"
-              value={username}
-              required
-              onChange={handleChangeUsername}
-            />
-            {errorUsername && <Form.Text>{errorUsername}</Form.Text>}
-          </Form.Group>
+    <Form className="login-form-main" onSubmit={handleSubmit}>
+      <Modal text={text} open={isOpen} onclose={() => setIsOpen(false)} />
+      <h1 className="login-title">Login</h1>
 
-          <Form.Group className="md-3" controlId="formPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter Password"
-              value={password}
-              required
-              onChange={handleChangePassword}
-            />
-            {errorPassword && <Form.Text>{errorPassword}</Form.Text>}
-          </Form.Group>
-          <Button size="sm" variant="light" block type="submit">
-            {" "}
-            Submit{" "}
-          </Button>
-        </Form>
-      </div>
-    </div>
+      <Form.Group className="login-form-group" controlId="formEmail">
+        <IconLabel
+          iconElement={<PersonOutline color="#00000" />}
+          label="Username"
+        />
+
+        <Form.Control
+          className="input"
+          type="text"
+          placeholder="Enter Username"
+          value={username}
+          required
+          onChange={handleChangeUsername}
+        />
+
+        {errorUsername && <Form.Text>{errorUsername}</Form.Text>}
+      </Form.Group>
+
+      <Form.Group className="login-form-group" controlId="formPassword">
+        <IconLabel
+          iconElement={<LockClosedOutline color="#00000" />}
+          label="Password"
+        />
+        <Form.Control
+          type="password"
+          placeholder="··········"
+          value={password}
+          required
+          onChange={handleChangePassword}
+        />
+
+        {errorPassword && <Form.Text>{errorPassword}</Form.Text>}
+      </Form.Group>
+      <Button className="submit" size="sm" variant="light" block type="submit">
+        Submit
+      </Button>
+    </Form>
   );
 }
