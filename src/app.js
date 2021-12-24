@@ -10,7 +10,7 @@ import SignUp from './Pages/SignUp/CreateUser';
 const navEl = document.getElementById("nav");
 
 document.addEventListener("click", (e) => {
-  if (e.target == navEl) {
+  if (e.target === navEl) {
     navEl?.classList?.remove("active");
   }
 });
