@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import Modal from "../../Modal";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Card } from "react-bootstrap";
+import "./CreateUser.css";
+import { LockClosedOutline, PersonOutline } from "react-ionicons";
 
+const IconLabel = ({ iconElement, label }) => (
+  <Form.Label className="red">
+    {iconElement} {label}
+  </Form.Label>
+);
 
 async function createUserAPI(credentials) {
   return fetch("http://localhost:4040/users/signup", {
@@ -14,37 +21,41 @@ async function createUserAPI(credentials) {
   }).then((res) => {
     if (res.ok) {
       return res.json();
-    } else if (res.status == 401) {
+    } else if (res.status === 401) {
       return "Username already in use";
     }
   });
 }
 
 export default function CreateUser() {
-  const [username, setUsername] = useState();
+
+
+  const [userEmail, setEmail] = useState();
   const [password1, setPassword1] = useState();
   const [password2, setPassword2] = useState();
 
   const [role, setRole] = useState("0");
 
   // Errors
-  const [errorUsername, setErrorUsername] = useState();
+  const [errorEmail, setErrorEmail] = useState();
   const [errorPassword1, setErrorPassword1] = useState();
   const [errorPassword2, setErrorPassword2] = useState();
 
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState();
 
-  const handleChangeUsername = async (event) => {
+  const handleChangeEmail = async (event) => {
     event.preventDefault();
     if (!event.target.value) 
     {
-      setErrorUsername("Username is not valid!");
+      setErrorEmail("Email is not valid!");
     }
+    if (event.target.value.length < 5)
+      setErrorEmail("Email must be at least 5 characters long!");
     else {
-      setErrorUsername("");
+      setErrorEmail("");
     }
-    setUsername(event.target.value);
+    //setErrorEmail(event.target.value);
   };
   const handleChangePassword1 = async (event) => {
     event.preventDefault();
@@ -57,7 +68,7 @@ export default function CreateUser() {
   };
   const handleChangePassword2 = async (event) => {
     event.preventDefault();
-    if (event.target.value != password1)
+    if (event.target.value !== password1)
       setErrorPassword2("Passwords are not match");
     else {
       setErrorPassword2("");
@@ -72,21 +83,21 @@ export default function CreateUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ( errorUsername || errorPassword1 || errorPassword2) {
+    if ( errorEmail || errorPassword1 || errorPassword2) {
       setText("You can't submit!");
       setIsOpen(true);
     } else {
       const val = await createUserAPI({
-        username: username.toLowerCase(),
+        userEmail: userEmail.toLowerCase(),
         password: password2,
       });
-      if (val && val != "Username already in use") {
+      if (val && val !== "Email already in use") {
         setText("User created successfully");
-        setUsername("");
+        setEmail("");
         setPassword1("");
         setPassword2("");
         setRole("0");
-        setErrorUsername("");
+        setErrorEmail("");
         setErrorPassword1("");
         setErrorPassword2("");
         setIsOpen(true);
@@ -95,11 +106,11 @@ export default function CreateUser() {
         setIsOpen(true);
       } else {
         setText("User was not created");
-        setUsername("");
+        setEmail("");
         setPassword1("");
         setPassword2("");
         setRole("0");
-        setErrorUsername("");
+        setErrorEmail("");
         setErrorPassword1("");
         setErrorPassword2("");
         setIsOpen(true);
@@ -108,83 +119,65 @@ export default function CreateUser() {
   };
 
   return (
-    <div className="create-user-form main-content">
-      <h1 className="hColor"> Create User </h1>
-      <Form onSubmit={handleSubmit}>
-      
-        <Form.Group className="mb-3" controlId="formUsername">
-          <Form.Label>User Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter username"
-            required
-            value={username}
-            onChange={handleChangeUsername}
-          />
-
-          {errorUsername && (
-            <Form.Text className="error">{errorUsername}</Form.Text>
-          )}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formPassword1">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter password"
-            required
-            value={password1}
-            onChange={handleChangePassword1}
-          />
-
-          {errorPassword1 && (
-            <Form.Text className="error">{errorPassword1}</Form.Text>
-          )}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formPassword2">
-          <Form.Label>Repeat password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter password"
-            required
-            value={password2}
-            onChange={handleChangePassword2}
-          />
-
-          {errorPassword2 && (
-            <Form.Text className="error">{errorPassword2}</Form.Text>
-          )}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formRole">
-          <Form.Label>Role&nbsp;</Form.Label>
-          <Form.Check
-            inline
-            name="role"
-            type="radio"
-            id="regular"
-            label="Regular"
-            value={0}
-            className="radioC"
-            checked={role == 0}
-            onChange={handleChangeRole}
-          />
-          <Form.Check
-            inline
-            name="role"
-            type="radio"
-            id="admin"
-            label="Admin"
-            value={1}
-            className="radioC"
-            checked={role == 1}
-            onChange={handleChangeRole}
-          />
-        </Form.Group>
-        <Button size="sm" variant="primary" type="submit" block>
-          Submit
-        </Button>
-      </Form>
-
+    <Form className="create-user-form-main" onSubmit={handleSubmit}>
       <Modal text={text} open={isOpen} onclose={() => setIsOpen(false)} />
-    </div>
+      <h1 className="signup-title"> Create User </h1>
+
+      <Form.Group className="signup-form-group" controlId="form-username">
+        <IconLabel
+          iconElement={<PersonOutline color="#00000" />}
+          label="Email"
+        />
+
+        <Form.Control
+          className="input"
+          type="text"
+          placeholder="Enter Email"
+          value={userEmail}
+          required
+          onChange={handleChangeEmail}
+        />
+
+        {errorEmail && <Form.Text >{errorEmail}</Form.Text>}
+      </Form.Group>
+
+      <Form.Group className="signup-form-group" controlId="form-Password1">
+        <IconLabel
+          iconElement={<LockClosedOutline color="#00000" />}
+          label="Password"
+        />
+        <Form.Control
+          type="password"
+          placeholder="··········"
+          required
+          value={password1}
+          onChange={handleChangePassword1}
+        />
+
+        {errorPassword1 && (
+          <Form.Text className="error">{errorPassword1}</Form.Text>
+        )}
+      </Form.Group>
+
+      <Form.Group className="signup-form-group" controlId="form-Password2">
+        <IconLabel
+          iconElement={<LockClosedOutline color="#00000" />}
+          label="Password Confirmation"
+        />
+        <Form.Control
+          type="password"
+          placeholder="··········"
+          required
+          value={password2}
+          onChange={handleChangePassword2}
+        />
+
+        {errorPassword2 &&  <Form.Text className="error">{errorPassword2}</Form.Text>}
+      </Form.Group>
+
+      <Button className="submit" size="sm" variant="light" block type="submit">
+        Submit
+      </Button>
+    </Form>
   );
 }
