@@ -54,7 +54,7 @@ export default function CreateUser() {
     else {
       setErrorEmail("");
     }
-    //setErrorEmail(event.target.value);
+
   };
   const handleChangePassword1 = async (event) => {
     event.preventDefault();
