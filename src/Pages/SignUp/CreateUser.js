@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "../../Modal";
-import { Form, Button, Card } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import "./CreateUser.css";
 import { LockClosedOutline, PersonOutline } from "react-ionicons";
 
@@ -34,7 +34,6 @@ export default function CreateUser() {
   const [password1, setPassword1] = useState();
   const [password2, setPassword2] = useState();
 
-  const [role, setRole] = useState("0");
 
   // Errors
   const [errorEmail, setErrorEmail] = useState();
@@ -76,10 +75,6 @@ export default function CreateUser() {
     setPassword2(event.target.value);
   };
 
-  const handleChangeRole = async (event) => {
-    event.preventDefault();
-    setRole(event.target.value);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,7 +91,6 @@ export default function CreateUser() {
         setEmail("");
         setPassword1("");
         setPassword2("");
-        setRole("0");
         setErrorEmail("");
         setErrorPassword1("");
         setErrorPassword2("");
@@ -109,7 +103,6 @@ export default function CreateUser() {
         setEmail("");
         setPassword1("");
         setPassword2("");
-        setRole("0");
         setErrorEmail("");
         setErrorPassword1("");
         setErrorPassword2("");
