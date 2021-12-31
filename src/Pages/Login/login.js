@@ -26,11 +26,11 @@ async function loginUser(credentials) {
 }
 
 export default function Login() {
-  const [username, setUsername] = useState();
+  const [userEmail, setEmail] = useState();
   const [password, setPassword] = useState();
 
   const [errorPassword, setErrorPassword] = useState();
-  const [errorUsername, setErrorUsername] = useState();
+  const [errorEmail, setErrorEmail] = useState();
 
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState();
@@ -45,34 +45,34 @@ export default function Login() {
     setPassword(event.target.value);
   };
 
-  const handleChangeUsername = async (event) => {
+  const handleChangeEmail = async (event) => {
     event.preventDefault();
-    if (event.target.value.length < 3)
-      setErrorUsername("Username must be at least 3 characters long!");
+    if (event.target.value.length < 5)
+      setErrorEmail("Email must be at least 5 characters long!");
     else {
-      setErrorUsername("");
+      setErrorEmail("");
     }
-    setUsername(event.target.value);
+    setEmail(event.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("username: " + username, +" password: " + password);
-    if (errorPassword || errorUsername) {
+    console.log("Email: " + userEmail, +" password: " + password);
+    if (errorPassword || errorEmail) {
       setText("You can't submit!");
-      setUsername("");
+      setEmail("");
       setPassword("");
-      setErrorUsername("");
+      setErrorEmail("");
       setErrorPassword("");
       setIsOpen(true);
     } else {
       const token = await loginUser({
-        username: username.toLowerCase(),
+        Email: userEmail.toLowerCase(),
         password: password,
       });
       if (token) {
         localStorage.setItem("token", token);
-        localStorage.setItem("username", username); //saving the username for getting user information - hello message , checking role
+        localStorage.setItem("username", userEmail); //saving the username for getting user information - hello message , checking role
 
         let date = Date.now();
         var formatter = new Intl.DateTimeFormat("en-us", {
@@ -124,9 +124,9 @@ export default function Login() {
         window.location.reload();
       } else {
         setText("You entered wrong credentials");
-        setUsername("");
+        setEmail("");
         setPassword("");
-        setErrorUsername("");
+        setErrorEmail("");
         setErrorPassword("");
         setIsOpen(true);
       }
@@ -141,19 +141,19 @@ export default function Login() {
       <Form.Group className="login-form-group" controlId="formEmail">
         <IconLabel
           iconElement={<PersonOutline color="#00000" />}
-          label="Username"
+          label="Email"
         />
 
         <Form.Control
           className="input"
           type="text"
-          placeholder="Enter Username"
-          value={username}
+          placeholder="Enter Email"
+          value={userEmail}
           required
-          onChange={handleChangeUsername}
+          onChange={handleChangeEmail}
         />
 
-        {errorUsername && <Form.Text>{errorUsername}</Form.Text>}
+        {errorEmail && <Form.Text>{errorEmail}</Form.Text>}
       </Form.Group>
 
       <Form.Group className="login-form-group" controlId="formPassword">

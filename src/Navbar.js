@@ -1,116 +1,54 @@
-import React, { useState, useEffect } from "react";
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { SidebarData } from "./SidebarData";
-//import "./../CSS/Navbar.css";
-import { IconContext } from "react-icons";
-import { Button } from "react-bootstrap";
-//import logo from "./../images/mek-logo.jpg";
+// import React, { useState, useEffect } from "react";
+// import * as FaIcons from "react-icons/fa";
+// import * as AiIcons from "react-icons/ai";
+// import { Link } from "react-router-dom";
 
-function Navbar() {
-  const [currentUser, setCurrentUser] = useState();
+// //import "./../CSS/Navbar.css";
+// import { IconContext } from "react-icons";
+// import { Button } from "react-bootstrap";
+import React, { Component } from 'react';
+import {Link} from "react-router";
+import './Navbar.css'
 
-  const [sidebar, setSidebar] = useState(false);
+class Navbar extends Component {
+  state = { clicked: false };
 
-  const showSidebar = () => setSidebar(!sidebar);
+  handleClick=()=>{
+    this.setState({clicked:!this.state.clicked})
+  }
 
-  // const onLogout = () => {
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("email");
-  //   window.location.reload();
-  // };
-
-  // const email = localStorage.getItem("email");
-
-  // useEffect(() => {
-  //   fetch("https://mekorot-api.pblm.tech/api/user/me/" + email?.toLowerCase(), {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //     },
-  //   }).then(async (res) => {
-  //     if (res.ok) {
-  //       const data = await res.json();
-  //       setCurrentUser(data);
-  //     }
-  //   });
-  // }, []);
-
-  return (
-    <>
-      <IconContext.Provider value={{ color: "#fff" }}>
-        <div className="navbar">
-          {/* <img src={logo} width="200" height="80" className="logo" /> */}
-          <label className="hello">
-            Hello{" "}
-            {/* {currentUser && currentUser.UserData
-              ? currentUser.UserData.name
-              : null}{" "} */}
-          </label>
-          <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
-          </Link>
+  render() {
+    return (
+      <nav className="NavbarItems">
+        <h1 className="navbar-logo">Comunication_LTD</h1>
+        <div className="menu-icon" onClick={this.handleClick}>
+          <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
         </div>
+        <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
+          <li className="nav-links">
+          <a href="/home">Home</a>
+          </li>
 
-        <div>
-          <nav id="nav" className={sidebar ? "nav-menu active" : "nav-menu"}>
-            {/* <nav className='nav-menu active'> */}
-            <ul className="nav-menu-items" onClick={showSidebar}>
-              {/* <ul className='nav-menu-items'> */}
+          <li className="nav-links">
+            <a href="/changepassword">Change Password</a>
+          </li>
 
-              <li className="navbar-toggle">
-                <Link to="#" className="menu-bars">
-                  <AiIcons.AiOutlineClose />
-                </Link>
-              </li>
-              {SidebarData.map((item, index) => {
-                return (
-                  <>
-                    {!currentUser ? (
-                      item.title == "Login" || item.title == "Sign Up" ? (
-                        <>
-                          <li key={index} className={item.cName}>
-                            <Link to={item.path}>
-                              {item.icon}
-                              <span>{item.title}</span>
-                            </Link>
-                          </li>
-                        </>
-                      ) : null
-                    ) : currentUser ? (
-                      item.title == "Change Password" ||
-                      item.title == "Users Table" ? (
-                        <>
-                          <li key={index} className={item.cName}>
-                            <Link to={item.path}>
-                              {item.icon}
-                              <span>{item.title}</span>
-                            </Link>
-                          </li>
-                        </>
-                      ) : null
-                    ) : null}
-                  </>
-                );
-              })}
-              <div>
-                <p> </p>
-                <Button
-                  size="sm"
-                  variant="danger"
-                  block
-                  //onClick={onLogout}
-                >
-                  Log Out
-                </Button>
-              </div>
-            </ul>
-          </nav>
-        </div>
-      </IconContext.Provider>
-    </>
-  );
+          <li className="nav-links-login"> 
+            <a href="/SignIn">Sign In</a>
+          </li>
+
+          <li className="nav-links-signup">
+            <a href="/SignUp">Sign Up</a>
+          </li>
+        </ul>
+      </nav>
+    );
+  }
 }
+
+
+// function Navbar() {
+
+// }
+
 export default Navbar;

@@ -1,25 +1,21 @@
-* {
-  font-family: "Century Gothic";
-  font-weight: 300;
+body {
+text-align: center;
 }
 
-body {
+.login-form-main {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   overflow-y: hidden;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
+  margin-top: 3em;
   background: #dde5f4;
-  height: 100vh;
-}
-
-.login-form-main {
-  background: #f1f7fe;
-  padding: 3.5em;
-  display: flex;
+  height: 65vh;
+  width: fit-content;
+  padding: 5em;
   flex-direction: column;
   border-radius: 30px;
   box-shadow: 0 0 2em #e6e9f9;
@@ -28,8 +24,9 @@ body {
 
 .login-form-main .login-title {
   text-align: center;
+  padding: 1em;
 }
-
+/* .login-form-group */
 .login-form-main .login-form-group {
   background: white;
   box-shadow: 0 0 2em #e6e9f9;
@@ -70,18 +67,3 @@ body {
   border-radius: 30px;
   font-weight: 600;
 }
-.login-form-main .footer {
-  display: flex;
-  font-size: 0.7em;
-  color: #5e5e5e;
-  gap: 14em;
-  padding-bottom: 10em;
-}
-.login-form-main .login-form-group small{
-
-}
-
-/* .login-form-main .md-3 .pass .lock-closed-outline {
-  width: 10px;
-  height: 1px; 
-}*/
