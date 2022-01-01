@@ -70,7 +70,7 @@ export default function Login() {
       setIsOpen(true);
     } else {
       const token = await loginUser({
-        Email: userEmail.toLowerCase(),
+        username: userEmail.toLowerCase(),
         password: password,
       });
       if (token) {
