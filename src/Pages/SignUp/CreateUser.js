@@ -11,6 +11,7 @@ const IconLabel = ({ iconElement, label }) => (
 );
 
 async function createUserAPI(credentials) {
+  console.log("before api signup")
   return fetch("http://localhost:4040/users/signup", {
     method: "POST",
     headers: {
@@ -54,7 +55,7 @@ export default function CreateUser() {
     else {
       setErrorEmail("");
     }
-
+    setEmail(event.target.value);
   };
   const handleChangePassword1 = async (event) => {
     event.preventDefault();
@@ -78,12 +79,22 @@ export default function CreateUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("submiting")
+        console.log("username", userEmail)
+        console.log("password", password2)
+    var cred = {
+      username: userEmail.toLowerCase(),
+      password:password1,
+      confirmPassword: password2,
+    }
+    console.log("credddd:   ", cred)
+    await createUserAPI(cred);
     if ( errorEmail || errorPassword1 || errorPassword2) {
       setText("You can't submit!");
       setIsOpen(true);
     } else {
       const val = await createUserAPI({
-        userEmail: userEmail.toLowerCase(),
+        username: userEmail.toLowerCase(),
         password: password2,
       });
       if (val && val !== "Email already in use") {

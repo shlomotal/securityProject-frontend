@@ -36,6 +36,7 @@ export default function Login() {
   const [text, setText] = useState();
 
   const handleChangePassword = async (event) => {
+    console.log("Liz")
     event.preventDefault();
     if (event.target.value.length < 10)
       setErrorPassword("Password must be at least 10 characters long!");
@@ -43,6 +44,7 @@ export default function Login() {
       setErrorPassword("");
     }
     setPassword(event.target.value);
+    console.log("password: ",password)
   };
 
   const handleChangeEmail = async (event) => {
@@ -57,7 +59,8 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email: " + userEmail, +" password: " + password);
+    console.log("Email: " + userEmail);
+    console.log("Password: ",password);
     if (errorPassword || errorEmail) {
       setText("You can't submit!");
       setEmail("");
@@ -67,7 +70,7 @@ export default function Login() {
       setIsOpen(true);
     } else {
       const token = await loginUser({
-        Email: userEmail.toLowerCase(),
+        username: userEmail.toLowerCase(),
         password: password,
       });
       if (token) {
