@@ -4,6 +4,10 @@ import { Form, Button } from "react-bootstrap";
 import "./login-form.css";
 import { LockClosedOutline, PersonOutline } from "react-ionicons";
 
+const validEmailRegex = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
+
 const IconLabel = ({ iconElement, label }) => (
   <Form.Label className="red">
     {iconElement} {label}
@@ -49,8 +53,8 @@ export default function Login() {
 
   const handleChangeEmail = async (event) => {
     event.preventDefault();
-    if (event.target.value.length < 5)
-      setErrorEmail("Email must be at least 5 characters long!");
+    if (!validEmailRegex.test(event.target.value))
+      setErrorEmail("Email is not valid");
     else {
       setErrorEmail("");
     }
@@ -74,8 +78,8 @@ export default function Login() {
         password: password,
       });
       if (token) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("username", userEmail); //saving the username for getting user information - hello message , checking role
+        //localStorage.setItem("token", token);
+        localStorage.setItem("username", userEmail); //saving the username
 
         let date = Date.now();
         var formatter = new Intl.DateTimeFormat("en-us", {

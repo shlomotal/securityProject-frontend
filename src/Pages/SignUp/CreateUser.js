@@ -4,6 +4,10 @@ import { Form, Button } from "react-bootstrap";
 import "./CreateUser.css";
 import { LockClosedOutline, PersonOutline } from "react-ionicons";
 
+const validEmailRegex = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
+
 const IconLabel = ({ iconElement, label }) => (
   <Form.Label className="red">
     {iconElement} {label}
@@ -50,8 +54,8 @@ export default function CreateUser() {
     {
       setErrorEmail("Email is not valid!");
     }
-    if (event.target.value.length < 5)
-      setErrorEmail("Email must be at least 5 characters long!");
+    if (!validEmailRegex.test(event.target.value))
+      setErrorEmail("Email is not valid");
     else {
       setErrorEmail("");
     }
@@ -87,16 +91,13 @@ export default function CreateUser() {
       password:password1,
       confirmPassword: password2,
     }
-    console.log("credddd:   ", cred)
-    await createUserAPI(cred);
+    //console.log("credddd:   ", cred)
+    //await createUserAPI(cred);
     if ( errorEmail || errorPassword1 || errorPassword2) {
       setText("You can't submit!");
       setIsOpen(true);
     } else {
-      const val = await createUserAPI({
-        username: userEmail.toLowerCase(),
-        password: password2,
-      });
+      const val = await createUserAPI(cred);
       if (val && val !== "Email already in use") {
         setText("User created successfully");
         setEmail("");
