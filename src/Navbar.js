@@ -11,7 +11,8 @@ import { Link } from "react-router";
 import "./Navbar.css";
 
 class Navbar extends Component {
-  state = { clicked: false };
+  state = { clicked: false, secureMode: true };
+  //mode = {secure: true};
 
   handleClick = () => {
     this.setState({ clicked: !this.state.clicked });
@@ -20,6 +21,32 @@ class Navbar extends Component {
   onLogout = () => {
     localStorage.removeItem("username");
     window.location.reload();
+  };
+
+  onSecure = () => {
+    console.log("secure mode: " + !this.state.secureMode);
+    if (!this.state.secureMode) {
+      // from unsecured to secure mode
+      console.log("from unsecured to secure mode ");
+      fetch("http://localhost:4040/mode/secured", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+    } else {
+      // from secure to unsecured
+      console.log("from secure to unsecured");
+      fetch("http://localhost:4040/mode/notsecured", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+    }
+    this.setState({ secureMode: !this.state.secureMode });
   };
 
   render() {
@@ -33,6 +60,9 @@ class Navbar extends Component {
           ></i>
         </div>
         <ul className={this.state.clicked ? "nav-menu active" : "nav-menu"}>
+          <Button size="sm" variant="danger" block onClick={this.onSecure}>
+            Secure
+          </Button>
           {!username ? (
             <>
               <li className="nav-links-login">
@@ -41,6 +71,10 @@ class Navbar extends Component {
 
               <li className="nav-links-signup">
                 <a href="/SignUp">Sign Up</a>
+              </li>
+
+              <li className="nav-links-signup">
+                <a href="/forgetPassword">Forget Password</a>
               </li>
             </>
           ) : (
