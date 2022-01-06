@@ -3,6 +3,7 @@ import Modal from "../../Modal";
 import { Form, Button } from "react-bootstrap";
 import "./login-form.css";
 import { LockClosedOutline, PersonOutline } from "react-ionicons";
+import { Navigate } from "react-router-dom";
 
 const validEmailRegex = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -40,13 +41,12 @@ export default function Login() {
   const [text, setText] = useState();
 
   const handleChangePassword = async (event) => {
-    console.log("Liz")
     event.preventDefault();
-    if (event.target.value.length < 10)
-      setErrorPassword("Password must be at least 10 characters long!");
-    else {
+    // if (event.target.value.length < 10)
+    //   setErrorPassword("Password must be at least 10 characters long!");
+    // else {
       setErrorPassword("");
-    }
+   // }
     setPassword(event.target.value);
     console.log("password: ",password)
   };
@@ -110,25 +110,8 @@ export default function Login() {
         console.log("debug the date = ", thedate);
         console.log("debug date params = ", dateSecondUpdated);
 
-        // fetch(
-        //   "https://mekorot-api.pblm.tech/api/user/updateLogin/" +
-        //     username +
-        //     "/" +
-        //     encodeURIComponent(thedate, "UTF-8"),
-        //   {
-        //     method: "GET",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       Accept: "application/json",
-        //     },
-        //   }
-        // ).then(async (res) => {
-        //   if (res.ok) {
-        //     const data = await res.json();
-        //   }
-        // });
-
-        window.location.reload();
+       window.location.reload();
+        // return token?<Navigate to="/"/>:window.location.reload();
       } else {
         setText("You entered wrong credentials");
         setEmail("");

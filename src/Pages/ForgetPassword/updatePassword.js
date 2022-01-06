@@ -62,11 +62,11 @@ export default function UpdatePassword() {
   };
   const handleChangePassword1 = async (event) => {
     event.preventDefault();
-    if (event.target.value.length < 10)
-      setErrorPassword1("Password must be at least 10 characters long!");
-    else {
+    // if (event.target.value.length < 10)
+    //   setErrorPassword1("Password must be at least 10 characters long!");
+    // else {
       setErrorPassword1("");
-    }
+   // }
     setPassword1(event.target.value);
   };
   const handleChangePassword2 = async (event) => {

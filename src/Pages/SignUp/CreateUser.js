@@ -25,9 +25,25 @@ async function createUserAPI(credentials) {
     body: JSON.stringify(credentials),
   }).then((res) => {
     if (res.ok) {
-      return res.json();
-    } else if (res.status === 401) {
-      return "Username already in use";
+      console.log("signup succeeded")
+      return "success";
+    } else {
+      if (res.status===401)
+      {
+        return "Password is too weak or too short";
+      }
+      else if (res.status===402)
+      {
+        return "Email is not valid";
+      }
+      else if(res.status===403)
+      {
+        return "The username already exists";
+      }
+      else if (res.status===404)
+      {
+        return "The password is very common, change it";
+      }
     }
   });
 }
@@ -63,11 +79,11 @@ export default function CreateUser() {
   };
   const handleChangePassword1 = async (event) => {
     event.preventDefault();
-    if (event.target.value.length < 10)
-      setErrorPassword1("Password must be at least 10 characters long!");
-    else {
+    // if (event.target.value.length < 10)
+    //   setErrorPassword1("Password must be at least 10 characters long!");
+    // else {
       setErrorPassword1("");
-    }
+   // }
     setPassword1(event.target.value);
   };
   const handleChangePassword2 = async (event) => {
@@ -91,14 +107,12 @@ export default function CreateUser() {
       password:password1,
       confirmPassword: password2,
     }
-    //console.log("credddd:   ", cred)
-    //await createUserAPI(cred);
     if ( errorEmail || errorPassword1 || errorPassword2) {
       setText("You can't submit!");
       setIsOpen(true);
     } else {
       const val = await createUserAPI(cred);
-      if (val && val !== "Email already in use") {
+      if (val === "success") {
         setText("User created successfully");
         setEmail("");
         setPassword1("");
@@ -107,11 +121,15 @@ export default function CreateUser() {
         setErrorPassword1("");
         setErrorPassword2("");
         setIsOpen(true);
-      } else if (val) {
-        setText("Username already in use");
-        setIsOpen(true);
-      } else {
-        setText("User was not created");
+      } else if (val==="Password is too weak or too short"){
+        setText("Password is too weak or too short");
+      }else if (val==="Email is not valid"){
+        setText("Email is not valid");
+      }else if (val==="The username already exists"){
+        setText("The username already exists");
+      }else if (val==="The password is very common, change it"){
+        setText("The password is very common, change it");
+      }
         setEmail("");
         setPassword1("");
         setPassword2("");
@@ -120,7 +138,7 @@ export default function CreateUser() {
         setErrorPassword2("");
         setIsOpen(true);
       }
-    }
+    
   };
 
   return (

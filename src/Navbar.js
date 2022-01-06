@@ -20,6 +20,7 @@ class Navbar extends Component {
 
   onLogout = () => {
     localStorage.removeItem("username");
+    
     window.location.reload();
   };
 
@@ -60,11 +61,14 @@ class Navbar extends Component {
           ></i>
         </div>
         <ul className={this.state.clicked ? "nav-menu active" : "nav-menu"}>
-          <Button size="sm" variant="danger" block onClick={this.onSecure}>
+          <Button className={this.state.secureMode?"green-status":"red-status"} size="sm" variant="danger" block onClick={this.onSecure}>
             Secure
           </Button>
           {!username ? (
             <>
+               <li className="nav-links">
+                <a href="/home">Home</a>
+              </li>
               <li className="nav-links-login">
                 <a href="/SignIn">Sign In</a>
               </li>
@@ -82,7 +86,9 @@ class Navbar extends Component {
               <li className="nav-links">
                 <a href="/home">Home</a>
               </li>
-
+              <li className="nav-links">
+                <a href="/addclient">Add client</a>
+              </li>
               <li className="nav-links">
                 <a href="/changepassword">Change Password</a>
               </li>
