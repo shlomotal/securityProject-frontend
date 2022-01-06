@@ -4,6 +4,17 @@ import { Form, Button, Table } from "react-bootstrap";
 import "./addClient.css";
 
 
+const ClientRow = ({
+  client
+
+}) => { return <tr>
+    <td>{client.clientFirstName}</td>
+    <td>{client.clientLastName}</td>
+    <td>{client.phoneNumber}</td>
+      <td>{client.address}</td>
+        <td>{client.createdDate}</td>
+        </tr>
+  };
 
 
 
@@ -218,11 +229,11 @@ return (
           </tr>
         </thead>
         <tbody>
-          <td>{client.clientFirstName}</td>
-          <td> {client.clientLastName}</td>
-          <td>{client.phoneNumber}</td>
-          <td>{client.address}</td>
-          <td>{client.createdDate}</td>
+          {client?client.map((client) => (
+            <ClientRow
+            client = {client}/>
+          )) : null}
+
         </tbody>
       </table>
     ) : (
