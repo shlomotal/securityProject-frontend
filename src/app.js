@@ -27,6 +27,7 @@ function App() {
             <Route path="/SignIn" element={<Login />} />
             <Route path="/SignUp" element={<CreateUser />} />
             <Route path="/forgetPassword" element={<ForgetPassword />} />
+            <Route path="/updatePassword" element={<UpdatePassword />} />
           </Routes>
         </>
       ) : (
@@ -38,7 +39,6 @@ function App() {
             <Route path="/SignIn" element={<Home />} />
             <Route path="/changePassword" element={<ChangePassword />} />
             <Route path="/addclient" element={<AddClient />} />
-            <Route path="/updatePassword" element={<UpdatePassword />} />
           </Routes>
         </>
       )}
