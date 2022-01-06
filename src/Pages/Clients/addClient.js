@@ -68,15 +68,15 @@ export default function AddClient() {
 
     const handlePhoneNumber = async (event) => {
       event.preventDefault();
-      let isNum=/^\d+$/.test(event.target.value);
-      if (event.target.value.length < 10){
-        setErrorPhoneNumber("Phone number must be 10 digits!");}
-      else if (!isNum){
-        setErrorPhoneNumber("Phone number must be digits only!");
-      }
-      else {
+      // let isNum=/^\d+$/.test(event.target.value);
+      // if (event.target.value.length < 10){
+      //   setErrorPhoneNumber("Phone number must be 10 digits!");}
+      // else if (!isNum){
+      //   setErrorPhoneNumber("Phone number must be digits only!");
+      // }
+      // else {
         setErrorPhoneNumber("");
-      }
+      //}
       setPhoneNumber(event.target.value);
     };
 

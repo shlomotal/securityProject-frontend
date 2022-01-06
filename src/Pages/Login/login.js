@@ -41,13 +41,12 @@ export default function Login() {
   const [text, setText] = useState();
 
   const handleChangePassword = async (event) => {
-    console.log("Liz")
     event.preventDefault();
-    if (event.target.value.length < 10)
-      setErrorPassword("Password must be at least 10 characters long!");
-    else {
+    // if (event.target.value.length < 10)
+    //   setErrorPassword("Password must be at least 10 characters long!");
+    // else {
       setErrorPassword("");
-    }
+   // }
     setPassword(event.target.value);
     console.log("password: ",password)
   };
